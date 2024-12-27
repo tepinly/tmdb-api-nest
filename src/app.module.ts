@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TmdbModule } from './tmdb/tmdb.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { MovieModule } from './movie/movie.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -18,6 +19,7 @@ import * as Joi from 'joi';
     }),
     PrismaModule,
     TmdbModule,
+    MovieModule,
   ],
   controllers: [AppController],
   providers: [AppService],
