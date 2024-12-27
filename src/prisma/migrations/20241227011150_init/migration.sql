@@ -1,16 +1,15 @@
 -- CreateTable
 CREATE TABLE `Movie` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `tmdbId` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `genre` VARCHAR(191) NOT NULL,
     `ratingAvg` DOUBLE NOT NULL,
     `ratingCount` INTEGER NOT NULL,
-    `runtime` INTEGER NOT NULL,
     `releaseDate` DATETIME(3) NOT NULL,
-    `overview` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Movie_tmdbId_key`(`tmdbId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -31,8 +30,10 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Genre` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `tmdbId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Genre_tmdbId_key`(`tmdbId`),
     UNIQUE INDEX `Genre_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -52,11 +53,11 @@ CREATE TABLE `UserMovie` (
 
 -- CreateTable
 CREATE TABLE `GenreMovie` (
-    `genreId` INTEGER NOT NULL,
-    `movieId` INTEGER NOT NULL,
+    `genreTmdbId` INTEGER NOT NULL,
+    `movieTmdbId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `GenreMovie_genreId_movieId_key`(`genreId`, `movieId`),
-    PRIMARY KEY (`genreId`, `movieId`)
+    UNIQUE INDEX `GenreMovie_genreTmdbId_movieTmdbId_key`(`genreTmdbId`, `movieTmdbId`),
+    PRIMARY KEY (`genreTmdbId`, `movieTmdbId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -66,7 +67,7 @@ ALTER TABLE `UserMovie` ADD CONSTRAINT `UserMovie_userId_fkey` FOREIGN KEY (`use
 ALTER TABLE `UserMovie` ADD CONSTRAINT `UserMovie_movieId_fkey` FOREIGN KEY (`movieId`) REFERENCES `Movie`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenreMovie` ADD CONSTRAINT `GenreMovie_genreId_fkey` FOREIGN KEY (`genreId`) REFERENCES `Genre`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GenreMovie` ADD CONSTRAINT `GenreMovie_genreTmdbId_fkey` FOREIGN KEY (`genreTmdbId`) REFERENCES `Genre`(`tmdbId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `GenreMovie` ADD CONSTRAINT `GenreMovie_movieId_fkey` FOREIGN KEY (`movieId`) REFERENCES `Movie`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `GenreMovie` ADD CONSTRAINT `GenreMovie_movieTmdbId_fkey` FOREIGN KEY (`movieTmdbId`) REFERENCES `Movie`(`tmdbId`) ON DELETE RESTRICT ON UPDATE CASCADE;
