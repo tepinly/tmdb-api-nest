@@ -9,18 +9,16 @@ generator client {
 
 model Movie {
   id          Int      @id @default(autoincrement())
+  tmdbId      Int      @unique
   title       String
-  genre       String
   ratingAvg   Float
   ratingCount Int
-  runtime     Int
   releaseDate DateTime
-  overview    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userMovies UserMovie[]
+  userMovies  UserMovie[]
   genreMovies GenreMovie[]
 }
 
@@ -37,8 +35,9 @@ model User {
 }
 
 model Genre {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id     Int    @id @default(autoincrement())
+  tmdbId Int    @unique
+  name   String @unique
 
   genreMovies GenreMovie[]
 }
@@ -60,12 +59,12 @@ model UserMovie {
 }
 
 model GenreMovie {
-  genreId Int
-  movieId Int
+  genreTmdbId Int
+  movieTmdbId Int
 
-  genre Genre @relation(fields: [genreId], references: [id])
-  movie Movie @relation(fields: [movieId], references: [id])
+  genre Genre @relation(fields: [genreTmdbId], references: [tmdbId])
+  movie Movie @relation(fields: [movieTmdbId], references: [tmdbId])
 
-  @@id([genreId, movieId])
-  @@unique([genreId, movieId])
+  @@id([genreTmdbId, movieTmdbId])
+  @@unique([genreTmdbId, movieTmdbId])
 }
