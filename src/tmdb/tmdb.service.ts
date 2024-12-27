@@ -13,15 +13,15 @@ export class TmdbService {
   }
 
   async getPopularMovies(page: number = 1) {
-    return await this.makeRequest(`${this.baseUrl}/movie/popular?page=${page}`);
+    return this.makeRequest(`${this.baseUrl}/movie/popular?page=${page}`);
   }
 
   async getMovieGenres() {
-    return await this.makeRequest(`${this.baseUrl}/genre/movie/list`);
+    return this.makeRequest(`${this.baseUrl}/genre/movie/list`);
   }
 
   private async makeRequest(url: string) {
-    return await axios.get(url, {
+    return axios.get(url, {
       headers: {
         Authorization: `Bearer ${this.apiToken}`,
         Accept: 'application/json',
