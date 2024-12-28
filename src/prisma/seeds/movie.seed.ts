@@ -1,5 +1,5 @@
 import { PrismaService } from '../prisma.service';
-import { TmdbService } from 'src/tmdb/tmdb.service';
+import { TmdbService } from '../../tmdb/tmdb.service';
 
 export async function seedMovies(
   prismaService: PrismaService,

@@ -1,4 +1,4 @@
-import { TmdbService } from 'src/tmdb/tmdb.service';
+import { TmdbService } from '../../tmdb/tmdb.service';
 import { PrismaService } from '../prisma.service';
 
 export async function seedGenres(

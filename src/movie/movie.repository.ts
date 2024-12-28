@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MovieRepository {
@@ -66,13 +67,13 @@ export class MovieRepository {
 
   async findOne(id: number) {
     return this.prismaService.movie.findUnique({
-      where: { tmdbId: id },
+      where: { id },
     });
   }
 
-  async update(id: number, data: any) {
+  async update(id: number, data: UpdateMovieDto) {
     return this.prismaService.movie.update({
-      where: { tmdbId: id },
+      where: { id },
       data,
     });
   }

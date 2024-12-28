@@ -1,9 +1,23 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { MovieService } from './movie.service';
+import { UserMovieService } from '../userMovie/userMovie.service';
+import { RateMovieDto } from './dto/rate-movie.dto';
 
 @Controller('movies')
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+  constructor(
+    private readonly movieService: MovieService,
+    private readonly userMovieService: UserMovieService,
+  ) {}
 
   @Get()
   findAll(@Query('search') search?: string) {
@@ -32,5 +46,24 @@ export class MovieController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.movieService.findOne(+id);
+  }
+
+  @Post(':id/rate')
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  rateMovie(@Param('id') id: string, @Body() rateMovieDto: RateMovieDto) {
+    return this.movieService.rateMovie(
+      { movieId: +id, userId: 1 },
+      rateMovieDto.rating,
+    );
+  }
+
+  @Post(':id/favorite')
+  async favoriteMovie(@Param('id') id: string) {
+    await this.movieService.favoriteMovie({
+      movieId: +id,
+      userId: 1,
+    });
+
+    return {};
   }
 }
