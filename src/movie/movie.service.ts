@@ -15,6 +15,7 @@ export class MovieService {
     page: number;
     limit: number;
     search?: string;
+    genres?: string[];
   }) {
     const { page, limit } = getPagination({
       page: args.page,
@@ -22,11 +23,17 @@ export class MovieService {
     });
     const { records, total } = await this.movieRepository.findAllPaginated({
       ...(args.search && { search: args.search }),
+      ...(args.genres && { genres: args.genres }),
       page,
       limit,
     });
 
-    return { records, page, limit, total };
+    const recordsTransformed = records.map((record) => ({
+      ...record,
+      genres: record.genreMovies.map((gm) => gm.genre.name),
+    }));
+
+    return { records: recordsTransformed, page, limit, total };
   }
 
   async findOne(id: number) {

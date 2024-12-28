@@ -15,14 +15,17 @@ export class MovieController {
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 5,
     @Query('search') search?: string,
+    @Query('genres') genres?: string,
   ) {
     const pageNumber = Number(page) || 1;
     const limitNumber = Number(limit) || 5;
+    const genresArray = genres ? genres.split(',') : [];
 
     return this.movieService.findAllPaginated({
       page: pageNumber,
       limit: limitNumber,
       search,
+      genres: genresArray,
     });
   }
 

@@ -21,20 +21,44 @@ export class MovieRepository {
     search?: string;
     page: number;
     limit: number;
+    genres?: string[];
   }) {
-    const where = args.search
-      ? {
-          title: {
-            contains: args.search,
+    const where = {
+      ...(args.search && {
+        title: {
+          contains: args.search,
+        },
+      }),
+      ...(args.genres &&
+        args.genres.length > 0 && {
+          genreMovies: {
+            some: {
+              genre: {
+                name: {
+                  in: args.genres,
+                },
+              },
+            },
           },
-        }
-      : {};
+        }),
+    };
 
     const total = await this.prismaService.movie.count({ where });
     const records = await this.prismaService.movie.findMany({
       where,
       skip: args.page,
       take: args.limit,
+      include: {
+        genreMovies: {
+          select: {
+            genre: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return { total, records };
