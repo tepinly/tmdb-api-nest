@@ -4,7 +4,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { getPagination } from '../helpers/pagination.helper';
 import { UserService } from '../user/user.service';
 import { UserMovieService } from '../userMovie/userMovie.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
