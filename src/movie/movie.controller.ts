@@ -44,13 +44,13 @@ export class MovieController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.movieService.findOne(+id);
   }
 
   @Post(':id/rate')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  rateMovie(@Param('id') id: string, @Body() rateMovieDto: RateMovieDto) {
+  rateMovie(@Param('id') id: number, @Body() rateMovieDto: RateMovieDto) {
     return this.movieService.rateMovie(
       { movieId: +id, userId: 1 },
       rateMovieDto.rating,
@@ -58,7 +58,7 @@ export class MovieController {
   }
 
   @Post(':id/favorite')
-  async favoriteMovie(@Param('id') id: string) {
+  async favoriteMovie(@Param('id') id: number) {
     await this.movieService.favoriteMovie({
       movieId: +id,
       userId: 1,

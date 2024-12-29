@@ -42,11 +42,16 @@ export class MovieService {
       genres: record.genreMovies.map((gm) => gm.genre.name),
     }));
 
-    return { records: recordsTransformed, page, limit, total };
+    return { records: recordsTransformed, page: page + 1, limit, total };
   }
 
   async findOne(id: number) {
-    return this.movieRepository.findOne(id);
+    const record = await this.movieRepository.findOne(id);
+    if (!record) {
+      throw new NotFoundException('Movie not found');
+    }
+
+    return record;
   }
 
   async update(id: number, updateMovieDto: UpdateMovieDto) {
