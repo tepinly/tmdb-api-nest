@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
-import { Role } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -10,22 +9,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
   ) {}
-
-  async generateAdminToken() {
-    const adminUser = await this.userService.findAdminUser();
-    if (!adminUser) {
-      throw new Error('No admin user found');
-    }
-
-    const payload = {
-      username: adminUser.username,
-      sub: adminUser.id,
-      role: Role.ADMIN,
-    };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userService.findByUsername(username);

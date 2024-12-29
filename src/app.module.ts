@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { UserMovieModule } from './userMovie/userMovie.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -19,6 +20,10 @@ import * as Joi from 'joi';
         TMDB_API_URL: Joi.string().required(),
         TMDB_API_KEY: Joi.string().required(),
       }),
+    }),
+    CacheModule.register({
+      ttl: 3600,
+      max: 100,
     }),
     PrismaModule,
     TmdbModule,

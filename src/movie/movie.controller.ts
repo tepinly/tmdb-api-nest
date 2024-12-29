@@ -11,14 +11,14 @@ import {
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { RateMovieDto } from './dto/rate-movie.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/jwt-role.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../auth/user.decorator';
+import { UserPayload } from '../auth/jwt.strategy';
 
 @Controller('movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query('search') search?: string) {
     return this.movieService.findAll({ search });
@@ -49,19 +49,25 @@ export class MovieController {
   }
 
   @Post(':id/rate')
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  rateMovie(@Param('id') id: number, @Body() rateMovieDto: RateMovieDto) {
+  rateMovie(
+    @Param('id') id: number,
+    @Body() rateMovieDto: RateMovieDto,
+    @User() user: UserPayload,
+  ) {
     return this.movieService.rateMovie(
-      { movieId: +id, userId: 1 },
+      { movieId: +id, userId: user.id },
       rateMovieDto.rating,
     );
   }
 
   @Post(':id/favorite')
-  async favoriteMovie(@Param('id') id: number) {
+  @UseGuards(JwtAuthGuard)
+  async favoriteMovie(@Param('id') id: number, @User() user: UserPayload) {
     await this.movieService.favoriteMovie({
       movieId: +id,
-      userId: 1,
+      userId: user.id,
     });
 
     return {};

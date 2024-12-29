@@ -1,6 +1,6 @@
 import { Role } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
 
 const configService = new ConfigService();
@@ -10,6 +10,7 @@ const jwtService = new JwtService({
   signOptions: { expiresIn: '1d' },
 });
 
+// TODO: Used for development purposes, should be removed in production
 async function generateAdminToken() {
   const prismaService = new PrismaService();
   const adminUser = await prismaService.user.findFirst({
