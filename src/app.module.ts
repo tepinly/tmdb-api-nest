@@ -6,8 +6,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { MovieModule } from './movie/movie.module';
 import { UserModule } from './user/user.module';
-import { GenreModule } from './genre/genre.module';
 import { UserMovieModule } from './userMovie/userMovie.module';
+import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -24,8 +24,8 @@ import * as Joi from 'joi';
     TmdbModule,
     MovieModule,
     UserModule,
-    GenreModule,
     UserMovieModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

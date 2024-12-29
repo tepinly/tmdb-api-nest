@@ -5,20 +5,20 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
-import { UserMovieService } from '../userMovie/userMovie.service';
 import { RateMovieDto } from './dto/rate-movie.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/jwt-role.guard';
 
 @Controller('movies')
 export class MovieController {
-  constructor(
-    private readonly movieService: MovieService,
-    private readonly userMovieService: UserMovieService,
-  ) {}
+  constructor(private readonly movieService: MovieService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(@Query('search') search?: string) {
     return this.movieService.findAll({ search });

@@ -8,4 +8,12 @@ export class UserService {
   findOne(id: number) {
     return this.UserRepository.findOne(id);
   }
+
+  findByUsername(username: string) {
+    return this.UserRepository.findByUsername(username);
+  }
+
+  findAdminUser() {
+    return this.UserRepository.findAdminUser();
+  }
 }

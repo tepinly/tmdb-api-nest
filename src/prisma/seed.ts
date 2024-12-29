@@ -11,9 +11,11 @@ async function main() {
   const prismaService = app.get(PrismaService);
   const tmdbService = app.get(TmdbService);
 
-  await seedUsers(prismaService);
-  await seedGenres(prismaService, tmdbService);
-  await seedMovies(prismaService, tmdbService);
+  await Promise.all([
+    seedUsers(prismaService),
+    seedGenres(prismaService, tmdbService),
+    seedMovies(prismaService, tmdbService),
+  ]);
 
   await app.close();
 }
