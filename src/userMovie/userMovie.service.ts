@@ -27,7 +27,7 @@ export class UserMovieService {
       });
     }
 
-    await this.userMovieRepository.update(args, {
+    return await this.userMovieRepository.update(args, {
       isFavorite: !userMovie.isFavorite,
     });
   }
