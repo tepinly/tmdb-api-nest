@@ -9,7 +9,7 @@ import { UserModule } from './user/user.module';
 import { UserMovieModule } from './userMovie/userMovie.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
-import { CacheModule } from '@nestjs/cache-manager';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -21,10 +21,7 @@ import { CacheModule } from '@nestjs/cache-manager';
         TMDB_API_KEY: Joi.string().required(),
       }),
     }),
-    CacheModule.register({
-      ttl: 3600,
-      max: 100,
-    }),
+    RedisModule,
     PrismaModule,
     TmdbModule,
     MovieModule,

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { MovieRepository } from './movie.repository';
+import { MovieRepository, PaginatedMovies } from './movie.repository';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { getPagination } from '../helpers/pagination.helper';
 import { UserService } from '../user/user.service';
@@ -30,12 +30,13 @@ export class MovieService {
       page: args.page,
       limit: args.limit,
     });
-    const { records, total } = await this.movieRepository.findAllPaginated({
-      ...(args.search && { search: args.search }),
-      ...(args.genres && { genres: args.genres }),
-      page,
-      limit,
-    });
+    const { records, total }: PaginatedMovies =
+      await this.movieRepository.findAllPaginated({
+        ...(args.search && { search: args.search }),
+        ...(args.genres && { genres: args.genres }),
+        page,
+        limit,
+      });
 
     const recordsTransformed = records.map((record) => ({
       ...record,
