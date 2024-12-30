@@ -26,8 +26,6 @@ npm run start
 
 Those will migrate and populate the database, then run the server
 
-----------
-
 ### Tests
 
 To run tests:
@@ -46,9 +44,9 @@ The structure followed is service-oriented, using
 - Services to handle the logic
 - Repositories to handle the database and cache management
 
-# Database schema
+----------
 
-## Models
+# Database schema
 
 ## Core Models
 
@@ -140,6 +138,8 @@ enum Role {
 }
 ```
 
+----------
+
 # API
 
 > [!IMPORTANT]
@@ -148,8 +148,6 @@ enum Role {
 ## Movies
 
 Base URL is `/movies`
-
-----------
 
 ### **Endpoints**
 
@@ -225,8 +223,6 @@ Base URL is `/movies`
 
 Base URL is `/auth`
 
-----------
-
 ### Endpoints
 
 #### **1. Login**
@@ -241,6 +237,8 @@ Base URL is `/auth`
     - A JSON object containing an access token
   - **Failure (Invalid Credentials):**
     - A JSON object with a message indicating invalid credentials
+
+----------
 
 # Missing features
 
