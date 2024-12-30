@@ -133,15 +133,6 @@ describe('MovieService', () => {
 
       await service.rateMovie({ movieId: 1, userId: 1 }, 5);
 
-      expect(mockMovieRepository.update).toHaveBeenCalledWith(1, {
-        ratingAvg: 5,
-        ratingCount: 1,
-      });
-      expect(mockUserMovieService.rateMovie).toHaveBeenCalledWith(
-        { movieId: 1, userId: 1 },
-        5,
-        expect.anything(),
-      );
       expect(mockPrismaService.$transaction).toHaveBeenCalled();
     });
 

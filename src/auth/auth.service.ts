@@ -10,7 +10,7 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string) {
     const user = await this.userService.findByUsername(username);
     if (!user) return null;
 

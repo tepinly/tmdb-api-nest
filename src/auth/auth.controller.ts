@@ -12,6 +12,7 @@ export class AuthController {
     if (!user) {
       return { message: 'Invalid credentials' };
     }
+
     return this.authService.login(user);
   }
 }
