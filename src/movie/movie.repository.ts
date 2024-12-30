@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { RedisService } from '../redis/redis.service';
+import { PrismaClient } from '@prisma/client';
 
 export interface PaginatedMovies {
   cacheKey: string;
@@ -131,13 +132,16 @@ export class MovieRepository {
     });
   }
 
-  async update(id: number, data: UpdateMovieDto) {
+  async update(id: number, data: UpdateMovieDto, prisma?: PrismaClient) {
     this.redisService.delete(['paginatedMovies', 'movies']);
-
-    return await this.prismaService.movie.update({
+    const query = {
       where: { id },
       data,
-    });
+    };
+
+    return await (prisma
+      ? prisma.movie.update(query)
+      : this.prismaService.movie.update(query));
   }
 
   private generatePaginationKey(args: {

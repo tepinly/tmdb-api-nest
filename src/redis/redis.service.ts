@@ -42,10 +42,6 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     await this.client.del(keys);
   }
 
-  async onModuleDestroy() {
-    await this.client.disconnect();
-  }
-
   async setSingleValue(key: string, value: any, expirationSeconds?: number) {
     const serializedValue = JSON.stringify(value);
     await this.client.set(key, serializedValue);
@@ -57,5 +53,9 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async getSingleValue<T>(key: string): Promise<T | null> {
     const value = await this.client.get(key);
     return value ? JSON.parse(value) : null;
+  }
+
+  async onModuleDestroy() {
+    await this.client.disconnect();
   }
 }

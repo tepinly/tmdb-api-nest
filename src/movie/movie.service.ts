@@ -77,10 +77,14 @@ export class MovieService {
     const ratingAvg = newRatingSum / newRatingCount;
 
     await this.prismaService.$transaction(async (prisma: PrismaClient) => {
-      await this.movieRepository.update(args.movieId, {
-        ratingAvg,
-        ratingCount: newRatingCount,
-      });
+      await this.movieRepository.update(
+        args.movieId,
+        {
+          ratingAvg,
+          ratingCount: newRatingCount,
+        },
+        prisma,
+      );
 
       await this.userMovieService.rateMovie(args, rating, prisma);
     });

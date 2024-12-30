@@ -1,16 +1,14 @@
-FROM node:23
+FROM node:18
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-
-RUN npm install -g @nestjs/cli
 
 COPY . .
 
+RUN npx prisma generate
 RUN npm run build
+RUN chmod +x start.sh
 
-EXPOSE 8080
-
-CMD ["npm", "run", "start:prod"]
+CMD ["./start.sh"]
